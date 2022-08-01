@@ -1,6 +1,6 @@
 {
   "name": "jcode-md",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "",
   "main": "dist/jcode-md.js",
   "scripts": {
@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "github-markdown-css": "^5.1.0",
+    "katex": "^0.16.0",
     "marked": "^4.0.18",
     "prismjs": "^1.28.0"
   }

@@ -1,5 +1,6 @@
 import {marked} from 'marked';
 import Prism from 'prismjs';
+import katex from './katex';
 
 const getCustomCode = async () => {
   let el;
@@ -17,14 +18,19 @@ const getCustomCode = async () => {
   class Renderer extends marked.Renderer {
     code(code, infostring, escaped) {
       const ret = super.code(code, infostring, escaped);
+      if(infostring === 'mermaid') {
+        return ret.replace(/^<pre><code/, '<div').replace(/<\/code><\/pre>$/, '</div>');
+      }
       return ret.replace(/^<pre>/, `<pre class="language-${infostring}">`);
     }
   }
-
   marked.setOptions({
     renderer: new Renderer(),
     highlight(code, lang) {
-      const language = Prism.languages[lang] || 'language-plaintext';
+      if(lang === 'mermaid') {
+        return `<div class="mermaid">${code}</div>`;
+      }
+      const language = Prism.languages[lang] || Prism.languages.plaintext;
       return Prism.highlight(code, language, lang);
     },
     pedantic: false,
@@ -36,6 +42,14 @@ const getCustomCode = async () => {
     xhtml: false,
     headerIds: false,
   });
+  marked.use({extensions: [...katex]});
   const el = document.querySelector('.markdown-body,.markdown-body-dark');
   el.innerHTML = marked.parse(content);
+  const isDark = el.classList.contains('markdown-body-dark');
+
+  if(window.mermaid && window.mermaid.init) {
+    const mermaidGraphs = document.querySelectorAll('.mermaid');
+    window.mermaid.initialize({theme: isDark ? 'dark' : 'neutral'});
+    window.mermaid.init(mermaidGraphs);
+  }
 })();
