@@ -1,6 +1,6 @@
-# JCode MDX
+# JCode MD
 
-Render HTML content with marked and preact.
+Render HTML content with [marked](https://github.com/markedjs/marked).
 
 ## Usage
 
