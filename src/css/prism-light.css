@@ -1,0 +1,167 @@
+/**
+ * VS theme by Andrew Lock (https://andrewlock.net)
+ * Inspired by Visual Studio syntax coloring
+ */
+
+.markdown-body code[class*="language-"],
+.markdown-body pre[class*="language-"] {
+	color: #393A34;
+	font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	font-size: .9em;
+	line-height: 1.2em;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+.markdown-body pre > code[class*="language-"] {
+	font-size: 1em;
+}
+
+.markdown-body pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+.markdown-body code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+	background: #C1DEF1;
+}
+
+.markdown-body pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+.markdown-body code[class*="language-"]::selection, code[class*="language-"] ::selection {
+	background: #C1DEF1;
+}
+
+/* Code blocks */
+.markdown-body pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border: 1px solid #dddddd;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .2em;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	background: #f8f8f8;
+	border: 1px solid #dddddd;
+}
+
+.markdown-body .token.comment,
+.markdown-body .token.prolog,
+.markdown-body .token.doctype,
+.markdown-body .token.cdata {
+	color: #008000;
+	font-style: italic;
+}
+
+.markdown-body .token.namespace {
+	opacity: .7;
+}
+
+.markdown-body .token.string {
+	color: #A31515;
+}
+
+.markdown-body .token.punctuation,
+.markdown-body .token.operator {
+	color: #393A34; /* no highlight */
+}
+
+.markdown-body .token.url,
+.markdown-body .token.symbol,
+.markdown-body .token.number,
+.markdown-body .token.boolean,
+.markdown-body .token.variable,
+.markdown-body .token.constant,
+.markdown-body .token.inserted {
+	color: #36acaa;
+}
+
+.markdown-body .token.atrule,
+.markdown-body .token.keyword,
+.markdown-body .token.attr-value,
+.markdown-body .language-autohotkey .token.selector,
+.markdown-body .language-json .token.boolean,
+.markdown-body .language-json .token.number,
+.markdown-body code[class*="language-css"] {
+	color: #0000ff;
+}
+
+.markdown-body .token.function {
+	color: #393A34;
+}
+
+.markdown-body .token.deleted,
+.markdown-body .language-autohotkey .token.tag {
+	color: #9a050f;
+}
+
+.markdown-body .token.selector,
+.markdown-body .language-autohotkey .token.keyword {
+	color: #00009f;
+}
+
+.markdown-body .token.important {
+	color: #e90;
+}
+
+.markdown-body .token.important,
+.markdown-body .token.bold {
+	font-weight: bold;
+}
+
+.markdown-body .token.italic {
+	font-style: italic;
+}
+
+.markdown-body .token.class-name,
+.markdown-body .language-json .token.property {
+	color: #2B91AF;
+}
+
+.markdown-body .token.tag,
+.markdown-body .token.selector {
+	color: #800000;
+}
+
+.markdown-body .token.attr-name,
+.markdown-body .token.property,
+.markdown-body .token.regex,
+.markdown-body .token.entity {
+	color: #ff0000;
+}
+
+.markdown-body .token.directive.tag .tag {
+	background: #ffff00;
+	color: #393A34;
+}
+
+/* overrides color-values for the Line Numbers plugin
+ * http://prismjs.com/plugins/line-numbers/
+ */
+.markdown-body .line-numbers.line-numbers .line-numbers-rows {
+	border-right-color: #a5a5a5;
+}
+
+.markdown-body .line-numbers .line-numbers-rows > span:before {
+	color: #2B91AF;
+}
+
+/* overrides color-values for the Line Highlight plugin
+* http://prismjs.com/plugins/line-highlight/
+*/
+.markdown-body .line-highlight.line-highlight {
+	background: rgba(193, 222, 241, 0.2);
+	background: -webkit-linear-gradient(left, rgba(193, 222, 241, 0.2) 70%, rgba(221, 222, 241, 0));
+	background: linear-gradient(to right, rgba(193, 222, 241, 0.2) 70%, rgba(221, 222, 241, 0));
+}
