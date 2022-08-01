@@ -2,9 +2,9 @@
 
 让码上掘金支持 Markdown。
 
-## Usage
+## 使用方法
 
-使用CDN：
+直接使用CDN：
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/jcode-md"></script>
