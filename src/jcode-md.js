@@ -11,18 +11,7 @@ const getCustomCode = async () => {
   } while(1);
 };
 
-const src = document.querySelector('body>script:last-of-type').src.replace(/\.js$/, '.css');
-
-function injectStyle(css) {
-  const headEl = document.head || document.getElementsByTagName('head')[0];
-  const styleEl = document.createElement('link');
-  styleEl.href = css;
-  styleEl.rel = 'stylesheet';
-  headEl.appendChild(styleEl);
-}
-
 (async () => {
-  injectStyle(src);
   const content = await getCustomCode();
 
   class Renderer extends marked.Renderer {

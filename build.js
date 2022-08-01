@@ -18,35 +18,25 @@ const options = {
 
 function injectStyle() {
   const css = fs.readFileSync('./dist/jcode-md.css', 'utf8');
-
-  const destFile = './dist/jcode-md.esm.css.js';
-  fs.writeFileSync(destFile, `function __eds__injectStyle(css) {
+  const js = fs.readFileSync('./dist/jcode-md.js');
+  fs.writeFileSync('./dist/jcode-md.js',
+    `${js}
+function __eds__injectStyle(css) {
   const headEl = document.head || document.getElementsByTagName('head')[0];
   const styleEl = document.createElement('style');
-  if (styleEl.styleSheet) {
+  if(styleEl.styleSheet) {
     styleEl.styleSheet.cssText = css;
   } else {
     styleEl.appendChild(document.createTextNode(css));
   }
   headEl.appendChild(styleEl);
-} 
-__eds__injectStyle(${JSON.stringify(css)});
-export default null;`);
-  const esm = fs.readFileSync('./dist/jcode-md.esm.js');
-  fs.writeFileSync('./dist/jcode-md.esm.js',
-    `import './jcode-md.esm.css.js';
-${esm}`);
+}
+__eds__injectStyle(${JSON.stringify(css)})`);
 }
 
 if(process.env.mode === 'production') {
   require('esbuild').buildSync({minify: true, ...options});
-  // require('esbuild').buildSync({
-  //   ...options,
-  //   format: 'esm',
-  //   entryPoints: ['src/jcode-md.js'],
-  //   outfile: 'dist/jcode-md.esm.js',
-  // });
-  // injectStyle();
+  injectStyle();
 } else {
   require('esbuild').serve({
     servedir: '.',
