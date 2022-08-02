@@ -28,6 +28,6 @@
 如何使用码上掘金？如何使用码上掘金？如何使用码上掘金？
 ```
 
-可以结合 [JCode 精选](https://github.com/xitu/jcode-tools#jcode%E7%B2%BE%E9%80%89) 用码上掘金来写文档合辑。
+可以结合 [JCode 精选](https://github.com/xitu/jcode-select) 用码上掘金来写文档合辑。
 
 例子： [玩转码上掘金](https://jcode.pub)
