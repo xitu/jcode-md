@@ -1,5 +1,4 @@
 import katex from 'katex';
-import 'katex/dist/katex.css';
 
 function renderer(token) {
   const {text: code, macros} = token;

@@ -18,9 +18,10 @@ const options = {
 
 function injectStyle() {
   const css = fs.readFileSync('./dist/jcode-md.css', 'utf8');
-  const js = fs.readFileSync('./dist/jcode-md.js');
-  fs.writeFileSync('./dist/jcode-md.js',
-    `${js}
+  ['./dist/jcode-md.js', './dist/jcode-md.esm.js'].forEach((file) => {
+    const js = fs.readFileSync(file, 'utf8');
+    fs.writeFileSync(file,
+      `${js}
 function __eds__injectStyle(css) {
   const headEl = document.head || document.getElementsByTagName('head')[0];
   const styleEl = document.createElement('style');
@@ -32,10 +33,17 @@ function __eds__injectStyle(css) {
   headEl.appendChild(styleEl);
 }
 __eds__injectStyle(${JSON.stringify(css)})`);
+  });
 }
 
 if(process.env.mode === 'production') {
   require('esbuild').buildSync({minify: true, ...options});
+  require('esbuild').buildSync({
+    ...options,
+    format: 'esm',
+    entryPoints: ['src/jcode-md.js'],
+    outfile: 'dist/jcode-md.esm.js',
+  });
   injectStyle();
 } else {
   require('esbuild').serve({

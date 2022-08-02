@@ -12,38 +12,51 @@ const getCustomCode = async () => {
   } while(1);
 };
 
-(async () => {
-  const content = await getCustomCode();
+export const codeExtensions = [
+  [/^mermaid$/, (code, infostring, escaped) => {
+    return `<div class="mermaid">${code}</div>`;
+  }],
+];
 
-  class Renderer extends marked.Renderer {
-    code(code, infostring, escaped) {
-      const ret = super.code(code, infostring, escaped);
-      if(infostring === 'mermaid') {
-        return ret.replace(/^<pre><code/, '<div').replace(/<\/code><\/pre>$/, '</div>');
+class Renderer extends marked.Renderer {
+  code(code, infostring, escaped) {
+    infostring = infostring.trim();
+    for(let i = 0; i < codeExtensions.length; i++) {
+      const [pattern, fn] = codeExtensions[i];
+      if(pattern.test(infostring)) {
+        return fn(code, infostring, escaped);
       }
-      return ret.replace(/^<pre>/, `<pre class="language-${infostring}">`);
     }
+    const ret = super.code(code, infostring, escaped);
+    return ret.replace(/^<pre>/, `<pre class="language-${infostring}">`);
   }
-  marked.setOptions({
-    renderer: new Renderer(),
-    highlight(code, lang) {
-      if(lang === 'mermaid') {
-        return `<div class="mermaid">${code}</div>`;
-      }
-      const language = Prism.languages[lang] || Prism.languages.plaintext;
-      return Prism.highlight(code, language, lang);
-    },
-    pedantic: false,
-    gfm: true,
-    breaks: false,
-    sanitize: false,
-    smartLists: true,
-    smartypants: false,
-    xhtml: false,
-    headerIds: false,
-  });
-  marked.use({extensions: [...katex]});
-  const el = document.querySelector('.markdown-body,.markdown-body-dark');
+}
+
+const defaultOptions = {
+  renderer: new Renderer(),
+  highlight(code, lang) {
+    const language = Prism.languages[lang] || Prism.languages.plaintext;
+    return Prism.highlight(code, language, lang);
+  },
+  pedantic: false,
+  gfm: true,
+  breaks: false,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false,
+  xhtml: false,
+  headerIds: false,
+};
+
+export const renderOptions = {};
+export const markedExtensions = [];
+
+export const render = async (el, options = {}) => {
+  const content = await getCustomCode();
+  const opt = {...defaultOptions, ...renderOptions, ...options};
+
+  marked.setOptions(opt);
+  marked.use({extensions: [...markedExtensions, ...katex]});
   el.innerHTML = marked.parse(content);
   const isDark = el.classList.contains('markdown-body-dark');
 
@@ -52,4 +65,10 @@ const getCustomCode = async () => {
     window.mermaid.initialize({theme: isDark ? 'dark' : 'neutral'});
     window.mermaid.init(mermaidGraphs);
   }
-})();
+};
+
+const el = document.querySelector('.markdown-body,.markdown-body-dark');
+const isAutoLoad = el && el.getAttribute('autoload');
+if(isAutoLoad !== 'false' && isAutoLoad !== false) {
+  render(el);
+}
