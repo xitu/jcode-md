@@ -1,5 +1,23 @@
 const fs = require('fs');
 const {version} = require('./package.json');
+
+const StyleLoader = {
+  name: 'inline-style',
+  setup({onLoad}) {
+    const template = css =>
+      // eslint-disable-next-line
+      `typeof document<'u'&&` +
+      // eslint-disable-next-line
+      `document.head.appendChild(document.createElement('style'))` +
+      `.appendChild(document.createTextNode(${JSON.stringify(css)}))`;
+
+    onLoad({filter: /\.css$/}, async (args) => {
+      const css = await fs.promises.readFile(args.path, 'utf8');
+      return {contents: template(css.replace(/\s+/g, ''))};
+    });
+  },
+};
+
 const options = {
   entryPoints: ['src/index.js'],
   outfile: 'dist/jcode-md.js',
@@ -14,37 +32,17 @@ const options = {
   define: {
     VERSION: `"${version}"`,
   },
+  plugins: [StyleLoader],
 };
 
-function injectStyle() {
-  const css = fs.readFileSync('./dist/jcode-md.css', 'utf8');
-  ['./dist/jcode-md.js', './dist/jcode-md.esm.js'].forEach((file) => {
-    const js = fs.readFileSync(file, 'utf8');
-    fs.writeFileSync(file,
-      `${js}
-function __eds__injectStyle(css) {
-  const headEl = document.head || document.getElementsByTagName('head')[0];
-  const styleEl = document.createElement('style');
-  if(styleEl.styleSheet) {
-    styleEl.styleSheet.cssText = css;
-  } else {
-    styleEl.appendChild(document.createTextNode(css));
-  }
-  headEl.appendChild(styleEl);
-}
-__eds__injectStyle(${JSON.stringify(css)})`);
-  });
-}
-
 if(process.env.mode === 'production') {
-  require('esbuild').buildSync({minify: true, ...options});
-  require('esbuild').buildSync({
+  require('esbuild').build({minify: true, ...options});
+  require('esbuild').build({
     ...options,
     format: 'esm',
     entryPoints: ['src/jcode-md.js'],
     outfile: 'dist/jcode-md.esm.js',
   });
-  injectStyle();
 } else {
   require('esbuild').serve({
     servedir: '.',

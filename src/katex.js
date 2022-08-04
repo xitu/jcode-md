@@ -1,3 +1,4 @@
+import 'katex/dist/katex.css';
 import katex from 'katex';
 
 function renderer(token) {

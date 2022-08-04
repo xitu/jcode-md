@@ -1,3 +1,9 @@
+import './css/common.css';
+import './css/prism-dark.css';
+import './css/prism-light.css';
+import './css/markdown-dark.css';
+import './css/markdown-light.css';
+
 import {marked} from 'marked';
 import Prism from 'prismjs';
 import katex from './katex';
@@ -29,6 +35,13 @@ class Renderer extends marked.Renderer {
     }
     const ret = super.code(code, infostring, escaped);
     return ret.replace(/^<pre>/, `<pre class="language-${infostring}">`);
+  }
+
+  link(href, title, text) {
+    if(href.startsWith('https://code.juejin.cn/pen/')) {
+      return `<iframe src="${href}" style="width:100%;height:430px;max-width:860px;"></iframe>`;
+    }
+    return super.link(href, title, text);
   }
 }
 
