@@ -12,7 +12,7 @@ html,  body {
 }
 
 .markdown-body embed,
-.markdown-body iframe,
+.markdown-body iframe:not(.jcode-playground),
 .markdown-body img:not(.equation),
 .markdown-body video, 
 .markdown-body-dark embed,
@@ -22,4 +22,12 @@ html,  body {
 {
   max-width: 100%!important;
   margin: 0;
+}
+
+.markdown-body .jcode-playground, 
+.markdown-body-dark .jcode-playground
+{
+  width:100%;
+  height:430px;
+  max-width:860px;
 }
