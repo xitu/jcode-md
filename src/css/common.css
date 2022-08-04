@@ -16,7 +16,7 @@ html,  body {
 .markdown-body img:not(.equation),
 .markdown-body video, 
 .markdown-body-dark embed,
-.markdown-body-dark iframe,
+.markdown-body-dark iframe:not(.jcode-playground),
 .markdown-body-dark img:not(.equation),
 .markdown-body-dark video
 {
