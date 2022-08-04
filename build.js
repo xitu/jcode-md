@@ -13,7 +13,7 @@ const StyleLoader = {
 
     onLoad({filter: /\.css$/}, async (args) => {
       const css = await fs.promises.readFile(args.path, 'utf8');
-      return {contents: template(css.replace(/\s+/g, ''))};
+      return {contents: template(css.replace(/\s+/g, ' '))};
     });
   },
 };
