@@ -10,3 +10,16 @@ html,  body {
   box-sizing: border-box;
   padding: 2rem;
 }
+
+.markdown-body embed,
+.markdown-body iframe,
+.markdown-body img:not(.equation),
+.markdown-body video, 
+.markdown-body-dark embed,
+.markdown-body-dark iframe,
+.markdown-body-dark img:not(.equation),
+.markdown-body-dark video
+{
+  max-width: 100%!important;
+  margin: 0;
+}
