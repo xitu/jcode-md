@@ -83,5 +83,8 @@ export const render = async (el, options = {}) => {
 const el = document.querySelector('.markdown-body,.markdown-body-dark');
 const isAutoLoad = el && el.getAttribute('autoload');
 if(isAutoLoad !== 'false' && isAutoLoad !== false) {
-  render(el);
+  const wrapper = document.createElement('div');
+  wrapper.className = 'markdown-body-wrapper';
+  el.appendChild(wrapper);
+  render(wrapper);
 }

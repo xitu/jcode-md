@@ -11,6 +11,11 @@ html,  body {
   padding: 2rem;
 }
 
+.markdown-body-wrapper {
+  max-width: 1280px;
+  margin: auto;
+}
+
 .markdown-body embed,
 .markdown-body iframe:not(.jcode-playground),
 .markdown-body img:not(.equation),
