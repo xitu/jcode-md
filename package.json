@@ -1,6 +1,6 @@
 {
   "name": "jcode-md",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "",
   "main": "dist/jcode-md.js",
   "module": "dist/jcode-md.esm.js",
