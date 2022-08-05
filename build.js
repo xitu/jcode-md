@@ -19,7 +19,7 @@ const StyleLoader = {
 };
 
 const options = {
-  entryPoints: ['src/index.js'],
+  entryPoints: ['src/index-themed.js'],
   outfile: 'dist/jcode-md.js',
   bundle: true,
   loader: {
@@ -38,10 +38,22 @@ const options = {
 if(process.env.mode === 'production') {
   require('esbuild').build({minify: true, ...options});
   require('esbuild').build({
+    minify: true,
+    ...options,
+    entryPoints: ['src/jcode-md.js'],
+    outfile: 'dist/jcode-md-pure.js',
+  });
+  require('esbuild').build({
+    ...options,
+    format: 'esm',
+    entryPoints: ['src/jcode-md-themed.js'],
+    outfile: 'dist/jcode-md.esm.js',
+  });
+  require('esbuild').build({
     ...options,
     format: 'esm',
     entryPoints: ['src/jcode-md.js'],
-    outfile: 'dist/jcode-md.esm.js',
+    outfile: 'dist/jcode-md-pure.esm.js',
   });
 } else {
   require('esbuild').serve({
