@@ -16689,7 +16689,7 @@ var Renderer2 = class extends marked.Renderer {
     return ret.replace(/^<pre>/, `<pre class="language-${infostring}">`);
   }
   link(href, title, text2) {
-    if (href.startsWith("https://code.juejin.cn/pen/")) {
+    if (!title && !text2 && href.startsWith("https://code.juejin.cn/pen/")) {
       return `<iframe class="jcode-playground" src="${href}"></iframe>`;
     }
     return super.link(href, title, text2);

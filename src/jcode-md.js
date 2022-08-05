@@ -34,7 +34,7 @@ class Renderer extends marked.Renderer {
   }
 
   link(href, title, text) {
-    if(href.startsWith('https://code.juejin.cn/pen/')) {
+    if(!title && !text && href.startsWith('https://code.juejin.cn/pen/')) {
       return `<iframe class="jcode-playground" src="${href}"></iframe>`;
     }
     return super.link(href, title, text);
