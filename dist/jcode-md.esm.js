@@ -16663,11 +16663,11 @@ var katex_default = [{
 
 // src/jcode-md.js
 var getCustomCode = async () => {
-  let el2;
+  let el;
   do {
-    el2 = document.querySelector("body>script:last-of-type");
-    if (el2 && el2.type === "text/markdown")
-      return el2.textContent;
+    el = document.querySelector("body>script:last-of-type");
+    if (el && el.type === "text/markdown")
+      return el.textContent;
     await new Promise((resolve) => setTimeout(resolve, 50));
   } while (1);
 };
@@ -16712,27 +16712,29 @@ var defaultOptions = {
 };
 var renderOptions = {};
 var markedExtensions = [];
-var render3 = async (el2, options2 = {}) => {
+var render3 = async (el, options2 = {}) => {
   const content = await getCustomCode();
   const opt = { ...defaultOptions, ...renderOptions, ...options2 };
   marked.setOptions(opt);
   marked.use({ extensions: [...markedExtensions, ...katex_default] });
-  el2.innerHTML = marked.parse(content);
-  const isDark = el2.classList.contains("markdown-body-dark");
+  el.innerHTML = marked.parse(content);
+  const isDark = el.classList.contains("markdown-body-dark");
   if (window.mermaid && window.mermaid.init) {
     const mermaidGraphs = document.querySelectorAll(".mermaid");
     window.mermaid.initialize({ theme: isDark ? "dark" : "neutral" });
     window.mermaid.init(mermaidGraphs);
   }
 };
-var el = document.querySelector(".markdown-body,.markdown-body-dark");
-var isAutoLoad = el && el.getAttribute("autoload");
-if (isAutoLoad !== "false" && isAutoLoad !== false) {
-  const wrapper = document.createElement("div");
-  wrapper.className = "markdown-body-wrapper";
-  el.appendChild(wrapper);
-  render3(wrapper);
-}
+window.onload = () => {
+  const el = document.querySelector(".markdown-body,.markdown-body-dark");
+  const isAutoLoad = el && el.getAttribute("autoload");
+  if (isAutoLoad !== "false" && isAutoLoad !== false) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "markdown-body-wrapper";
+    el.appendChild(wrapper);
+    render3(wrapper);
+  }
+};
 export {
   codeExtensions,
   markedExtensions,
